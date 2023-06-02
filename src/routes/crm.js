@@ -1,30 +1,11 @@
-const routes = (app) => {
-  app
-    .route("/contact")
+const express = require("express");
+const router = express.Router();
+const controller = require("../controllers/crmController");
 
-    .get(
-      (req, res, next) => {
-        //middleware
-        console.log(`Request from ${req.originalUrl}`);
-        console.log(`Request type ${req.method}`);
-        next();
-      },
-      (req, res, next) => {
-        res.send("Get request received successfuly");
-      }
-    )
+router.get('/', controller.getContacts);
+router.get('/:contactId', controller.getContact);
+router.post('/', controller.addContacts);
+router.put('/:contactId', controller.updateContacts);
+router.delete('/:contactId', controller.deleteContacts);
 
-    .post((req, res) => {
-      res.send("Post request received successfuly");
-    })
-
-    .put((req, res) => {
-      res.send("Put request received successfuly");
-    })
-
-    .delete((req, res) => {
-      res.send("Delete request received successfuly");
-    });
-};
-
-module.exports = routes;
+module.exports = router;
