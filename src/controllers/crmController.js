@@ -36,10 +36,26 @@ exports.addContacts = async (req, res) => {
   }
 };
 
-exports.updateContacts = (req, res) => {
-  res.send("Put request");
+exports.updateContacts = async (req, res) => {
+    const { firstName, lastName, email, company, phone, contactId } = req.body;
+    try {
+  
+      const contact = await Contact.updateOne({_id: contactId }, { firstName, lastName, email, company, phone });
+      res.send(contact);
+      
+    } catch (error) {
+      res.status(500).send("Server error", error.message);
+    }
 };
 
-exports.deleteContacts = (req, res) => {
-  res.send("Delete request");
+exports.deleteContacts = async (req, res) => {
+  const { contactId } = req.params;
+  try {
+
+    const contact = await Contact.findOneAndDelete({_id: contactId });
+    res.send(contact);
+    
+  } catch (error) {
+    res.status(500).send("Server error", error.message);
+  }
 };
